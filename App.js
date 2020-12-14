@@ -9,12 +9,7 @@ const MESSAGE_ENPOINT = 'http://e17503bc16ed.ngrok.io/message';
 
 export default class App extends React.Component {
   state = {
-    notification: null,
     messageText: ''
-  }
-
-  handleNotification = (notification) => {
-    this.setState({ notification });
   }
 
   handleChangeText = (text) => {
@@ -43,9 +38,9 @@ export default class App extends React.Component {
       return;
     }
 
-    let token = await Notifications.getExpoPushTokenAsync();
+    // Expo testing tool: https://expo.io/notifications
     // let token = await Notifications.getDevicePushTokenAsync();
-    // console.log(token);
+    let token = await Notifications.getExpoPushTokenAsync();
 
     fetch(PUSH_REGISTRATION_ENDPOINT, {
       method: 'POST',
@@ -63,21 +58,10 @@ export default class App extends React.Component {
         },
       }),
     });
-  
-    this.notificationSubscription = Notifications.setNotificationHandler(this.handleNotification);
   }
 
   componentDidMount() {
     this.registerForPushNotificationsAsync();
-  }
-
-  renderNotification() {
-    return(
-      <View style={styles.container}>
-        <Text style={styles.label}>A new message was recieved!</Text>
-        <Text>{this.state.notification.data.message}</Text>
-      </View>
-    )
   }
   
   render() {
@@ -88,8 +72,6 @@ export default class App extends React.Component {
         <TouchableOpacity style={styles.button} onPress={this.sendMessage}>
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
-        
-        { this.state.notification ? this.renderNotification() : null }
       </View>
     );
   }
@@ -120,17 +102,17 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   label: {
-    fontSize: 18
+    fontSize: 18,
+    color: '#fff'
   }
 });
 
 // expo init my-app
 // expo install expo-permissions
 // expo install expo-notifications
-// npm start (start the app)
 // expo install express esm expo-server-sdk
-// npm run serve (start the express back end server)
-// npm i -g ngrok   // https://ngrok.com/
-// ngrok http 3000  // expose(tunnel) back end express server (localhost) to internet on port 3000
+// npm i -g ngrok   // install service: https://ngrok.com/
+// npm start        // start app
+// npm run serve    // start express back end server
+// ngrok http 3000  // expose back end express server (localhost) to internet on port 3000 (tunnel)
 // Forward HTTP requests from: http://localhost:3000 to: http://e17503bc16ed.ngrok.io
-// https://expo.io/notifications  // Expo testing tool

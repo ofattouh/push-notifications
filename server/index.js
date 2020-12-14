@@ -52,6 +52,10 @@ const saveToken = (token) => {
 
 app.use(express.json());
 
+app.listen(PORT_NUMBER, () => {
+  console.log(`Server running on Port ${PORT_NUMBER}`);
+});
+
 app.get('/', (req, res) => {
   res.send('Push Notification Server Running');
 });
@@ -66,8 +70,4 @@ app.post('/message', (req, res) => {
   handlePushTokens(req.body.message);
   console.log(`Received message: ${req.body.message}`);
   res.send(`Received message, ${req.body.message}`);
-});
-
-app.listen(PORT_NUMBER, () => {
-  console.log(`Server running on Port ${PORT_NUMBER}`);
 });
