@@ -100,10 +100,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: '#fff'
-  },
-  label: {
-    fontSize: 18,
-    color: '#fff'
   }
 });
 
